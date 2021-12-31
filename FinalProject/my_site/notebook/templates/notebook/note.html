@@ -1,0 +1,13 @@
+{% extends 'notebook/base.html' %}
+
+{% block title %}{{ note.title }}{% endblock %}
+
+{% block content %}
+    <div class="features">
+        <h1>{{ note.title }}</h1>
+        <p>{{ note.data }}</p>
+        <p style="width: 60vw;">{{ note.content }}</p>
+        <a href="{% url 'n_update' note.id %}" class="btn btn-warning">Редактировать</a>
+        <a href="{% url 'n_delete' note.id %}" class="btn btn-danger">Удалить</a>
+    </div>
+{% endblock %}

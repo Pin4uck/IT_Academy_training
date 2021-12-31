@@ -1,0 +1,49 @@
+{% extends 'notebook/base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+    <div class="features">
+        <h1>Главная страница {{ title }}</h1>
+
+        {% if notes %}
+            {% for el in notes %}
+                <div class="alert alert-warning">
+                    <h3>{{ el.title }}</h3>
+                    <p>{{ el.content|linebreaks|truncatewords:20 }}</p>
+                    <a href="{% url 'n_note' el.id %}" class="btn btn-warning">Читать детальнее</a>
+                </div>
+            {% endfor %}
+
+        {% else %}
+            <p>Нет записей!</p>
+
+        {% endif %}
+
+{% if page_obj.has_other_pages %}
+<nav class="list-pages">
+    <ul>
+    {% if page_obj.has_previous %}
+    <li class="page-num">
+        <a href="?page={{ page_obj.previous_page_number }}">&lt;</a>
+    </li>
+    {% endif %}
+        {% for p in paginator.page_range %}
+        {% if page_obj.number == p %}
+        <li class="page-num page-num-selected">{{ p }}</li>
+        {% elif p >= page_obj.number|add:-2 and p <= page_obj.number|add:2 %}
+            <li class="page-num">
+                <a href="?page={{ p }}">{{ p }}</a>
+            </li>
+        {% endif %}
+        {% endfor %}
+    {% if page_obj.has_next %}
+    <li class="page-num">
+        <a href="?page={{ page_obj.next_page_number }}">&gt;</a>
+    </li>
+    {% endif %}
+    </ul>
+</nav>
+{% endif %}
+        </div>
+{% endblock %}
